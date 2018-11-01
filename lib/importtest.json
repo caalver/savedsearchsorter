@@ -1,0 +1,29 @@
+[
+  {
+    "_id": "AWbHoQ2mHREZslC1ur0J",
+    "_type": "search",
+    "_source": {
+      "title": "ImportTest",
+      "description": "A Description of Assets",
+	  "additionaldata": "AssetType",
+      "hits": 0,
+      "columns": [
+        "host",
+        "src_ip",
+        "src_port",
+        "dst_ip",
+        "dst_port",
+        "rule_explanation",
+        "x5"
+      ],
+      "sort": [
+        "@timestamp",
+        "desc"
+      ],
+      "version": 1,
+      "kibanaSavedObjectMeta": {
+        "searchSourceJSON": "{\"index\":\"logstash-*\",\"highlightAll\":true,\"version\":true,\"query\":{\"query_string\":{\"query\":\"customer: egress AND host:(\\\"ImportTest\\\" OR \\\"S-VM-CGFW-02\\\" OR 2018) AND dst_port: (80 OR 443) AND  !dst_ip:(10.*)\"}},\"filter\":[{\"meta\":{\"negate\":false,\"index\":\"logstash-*\",\"type\":\"phrase\",\"key\":\"rule_explanation\",\"value\":\"Block by Rule\",\"disabled\":false,\"alias\":null},\"query\":{\"match\":{\"rule_explanation\":{\"query\":\"Block by Rule\",\"type\":\"phrase\"}}},\"$state\":{\"store\":\"appState\"}},{\"meta\":{\"negate\":true,\"index\":\"logstash-*\",\"type\":\"phrase\",\"key\":\"dst_ip\",\"value\":\"51.140.98.205\",\"disabled\":false,\"alias\":null},\"query\":{\"match\":{\"dst_ip\":{\"query\":\"51.140.98.205\",\"type\":\"phrase\"}}},\"$state\":{\"store\":\"appState\"}}]}"
+      }
+    }
+  }
+]
