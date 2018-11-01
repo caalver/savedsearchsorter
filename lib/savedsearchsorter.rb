@@ -39,6 +39,7 @@ module Savedsearchsorter
   #test of searching for user input
   if test3 == true
 
+    puts "Please enter search term"
     #get user input - chomp is to remove 'enter' character
     searchquery = gets()
     puts "Searching stored Saved Searches for asset " + searchquery
