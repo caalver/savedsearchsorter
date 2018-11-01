@@ -9,7 +9,8 @@ module Savedsearchsorter
 
   test1 = false
   test2 = false
-  test3 = true
+  test3 = false
+  test4 = true
 
   #test of json parsing
   if test1 == true
@@ -68,5 +69,39 @@ module Savedsearchsorter
     puts "============="
 
   end
+
+  #test of searching from input list
+  if test4 == true
+
+    puts "============== \n"
+    puts "Results:"
+
+    File.open('assetlist.txt') do |searchterm|
+      searchterm.each_line do |searchquery|
+
+        puts "Asset: " + searchquery
+        assetname = searchquery.downcase.chomp
+
+        Dir.foreach('./jsons/') do |item|
+          next if item == '.' or item == '..'
+
+          #it doesn't appear to treat 'item' as a file object it is a just a string of the filename..
+          obj = JSON.parse(File.read('./jsons/' + item))
+          description = obj[0]["_source"]["description"]
+
+          if description.downcase.include? assetname
+            puts item
+            puts obj[0]["_source"]["title"]
+            puts "\n"
+          end
+
+        end
+      end
+    end
+
+    puts "============="
+
+  end
+
 
 end
