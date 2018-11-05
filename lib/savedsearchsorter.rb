@@ -10,7 +10,8 @@ module Savedsearchsorter
   test1 = false
   test2 = false
   test3 = false
-  test4 = true
+  test4 = false
+  test5 = true
 
   #test of json parsing
   if test1 == true
@@ -76,8 +77,8 @@ module Savedsearchsorter
     puts "============== \n"
     puts "Results:"
 
-    File.open('assetlist.txt') do |searchterm|
-      searchterm.each_line do |searchquery|
+    File.open('assetlist.txt') do |searchlist|
+      searchlist.each_line do |searchquery|
 
         puts "Asset: " + searchquery
         assetname = searchquery.downcase.chomp
@@ -103,5 +104,48 @@ module Savedsearchsorter
 
   end
 
+  ##searches multiple json entries from single json file using asset list as input
+  if test5 == true
+
+    puts "============== \n"
+    puts "Results:"
+
+    File.open('assetlist.txt') do |searchlist|
+      searchlist.each_line do |searchquery|
+
+        puts "Asset: " + searchquery
+        assetname = searchquery.downcase.chomp
+        noresults = true
+
+       obj = JSON.parse(File.read('multiple.json'))
+
+        #iterate through json array
+        obj.each do |element|
+
+          description = element["_source"]["description"]
+
+          if description.downcase.include? assetname
+            noresults = false
+            puts element["_source"]["title"]
+            puts "\n"
+
+          end
+
+        end
+
+        if noresults == true
+          puts "No Results"
+          puts "\n"
+        end
+
+      end
+
+    end
+
+  end
+
+  puts "============="
 
 end
+
+
