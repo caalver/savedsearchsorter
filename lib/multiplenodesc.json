@@ -1,0 +1,371 @@
+[
+  {
+    "_id": "AWbH4LVmHREZslC1ur0m",
+    "_type": "search",
+    "_source": {
+      "title": "Egress 3.3.6b",
+      "description": "",
+      "hits": 0,
+      "columns": [
+        "syslog_program",
+        "barracuda_log"
+      ],
+      "sort": [
+        "@timestamp",
+        "desc"
+      ],
+      "version": 1,
+      "kibanaSavedObjectMeta": {
+        "searchSourceJSON": "{\n  \"index\": \"logstash-*\",\n  \"highlightAll\": true,\n  \"version\": true,\n  \"query\": {\n    \"query_string\": {\n      \"query\": \"(syslog_program: (\\\"S-VM-CGFW-01/box_Auth_access\\\" OR \\\"S-VM-CGFW-02/box_Auth_access\\\" OR \\\"P-VM-NGFW-01/box_Auth_access\\\") AND barracuda_log: \\\"LOGIN ATTEMPT\\\" NOT \\\"boxconfig\\\")  OR (syslog_program: (\\\"S-VM-CGFW-01/box_SSH_sshd\\\" OR \\\"S-VM-CGFW-02/box_SSH_sshd\\\" OR \\\"P-VM-NGFW-01/box_SSH_sshd\\\") AND barracuda_log: \\\"LOGIN ATTEMPT: : pam_unix(sshd:auth)\\\" NOT \\\"Postponed\\\")\",\n      \"analyze_wildcard\": true\n    }\n  },\n  \"filter\": [\n    {\n      \"$state\": {\n        \"store\": \"appState\"\n      },\n      \"meta\": {\n        \"alias\": null,\n        \"disabled\": false,\n        \"index\": \"logstash-*\",\n        \"key\": \"log_level\",\n        \"negate\": false,\n        \"type\": \"phrase\",\n        \"value\": \"Info\"\n      },\n      \"query\": {\n        \"match\": {\n          \"log_level\": {\n            \"query\": \"Info\",\n            \"type\": \"phrase\"\n          }\n        }\n      }\n    },\n    {\n      \"meta\": {\n        \"negate\": false,\n        \"index\": \"logstash-*\",\n        \"type\": \"phrase\",\n        \"key\": \"customer\",\n        \"value\": \"egress\",\n        \"disabled\": false,\n        \"alias\": null\n      },\n      \"query\": {\n        \"match\": {\n          \"customer\": {\n            \"query\": \"egress\",\n            \"type\": \"phrase\"\n          }\n        }\n      },\n      \"$state\": {\n        \"store\": \"appState\"\n      }\n    },\n    {\n      \"meta\": {\n        \"index\": \"logstash-*\",\n        \"negate\": true,\n        \"disabled\": false,\n        \"alias\": null,\n        \"type\": \"phrase\",\n        \"key\": \"syslog_message\",\n        \"value\": \"Info     S-VM-CGFW-01 boxconfig[12706]: Session localhost_S-VM-CGFW-01: Closed\"\n      },\n      \"query\": {\n        \"match\": {\n          \"syslog_message\": {\n            \"query\": \"Info     S-VM-CGFW-01 boxconfig[12706]: Session localhost_S-VM-CGFW-01: Closed\",\n            \"type\": \"phrase\"\n          }\n        }\n      },\n      \"$state\": {\n        \"store\": \"appState\"\n      }\n    },\n    {\n      \"meta\": {\n        \"index\": \"logstash-*\",\n        \"negate\": true,\n        \"disabled\": false,\n        \"alias\": null,\n        \"type\": \"phrase\",\n        \"key\": \"syslog_message\",\n        \"value\": \"Info     S-VM-CGFW-02 boxconfig[12706]: Session localhost_S-VM-CGFW-02: Closed\"\n      },\n      \"query\": {\n        \"match\": {\n          \"syslog_message\": {\n            \"query\": \"Info     S-VM-CGFW-02 boxconfig[12706]: Session localhost_S-VM-CGFW-02: Closed\",\n            \"type\": \"phrase\"\n          }\n        }\n      },\n      \"$state\": {\n        \"store\": \"appState\"\n      }\n    }\n  ]\n}"
+      }
+    }
+  },
+  {
+    "_id": "AWbHz_AyHREZslC1ur0i",
+    "_type": "search",
+    "_source": {
+      "title": "Egress 3.3.1",
+      "description": "",
+      "hits": 0,
+      "columns": [
+        "src_ip",
+        "src_port",
+        "dst_ip",
+        "dst_port",
+        "action",
+        "rule_explanation"
+      ],
+      "sort": [
+        "@timestamp",
+        "desc"
+      ],
+      "version": 1,
+      "kibanaSavedObjectMeta": {
+        "searchSourceJSON": "{\n  \"index\": \"logstash-*\",\n  \"highlightAll\": true,\n  \"version\": true,\n  \"query\": {\n    \"query_string\": {\n      \"query\": \"customer: egress AND syslog_program: (\\\"P-VM-NGFW-01/Box_Firewall_Activity\\\" OR \\\"S-VM-CGFW-01/Box_Firewall_Activity\\\" OR \\\"S-VM-CGFW-02/Box_Firewall_Activity\\\") AND NOT dst_ip:(10.*)\"\n    }\n  },\n  \"filter\": [\n    {\n      \"meta\": {\n        \"negate\": true,\n        \"index\": \"logstash-*\",\n        \"type\": \"phrase\",\n        \"key\": \"action\",\n        \"value\": \"Allow\",\n        \"disabled\": false,\n        \"alias\": null\n      },\n      \"query\": {\n        \"match\": {\n          \"action\": {\n            \"query\": \"Allow\",\n            \"type\": \"phrase\"\n          }\n        }\n      },\n      \"$state\": {\n        \"store\": \"appState\"\n      }\n    },\n    {\n      \"meta\": {\n        \"negate\": true,\n        \"index\": \"logstash-*\",\n        \"type\": \"phrase\",\n        \"key\": \"action\",\n        \"value\": \"Remove\",\n        \"disabled\": false,\n        \"alias\": null\n      },\n      \"query\": {\n        \"match\": {\n          \"action\": {\n            \"query\": \"Remove\",\n            \"type\": \"phrase\"\n          }\n        }\n      },\n      \"$state\": {\n        \"store\": \"appState\"\n      }\n    },\n    {\n      \"meta\": {\n        \"negate\": true,\n        \"index\": \"logstash-*\",\n        \"type\": \"phrase\",\n        \"key\": \"action\",\n        \"value\": \"LocalRemove\",\n        \"disabled\": false,\n        \"alias\": null\n      },\n      \"query\": {\n        \"match\": {\n          \"action\": {\n            \"query\": \"LocalRemove\",\n            \"type\": \"phrase\"\n          }\n        }\n      },\n      \"$state\": {\n        \"store\": \"appState\"\n      }\n    },\n    {\n      \"meta\": {\n        \"negate\": true,\n        \"index\": \"logstash-*\",\n        \"type\": \"phrase\",\n        \"key\": \"action\",\n        \"value\": \"LocalAllow\",\n        \"disabled\": false,\n        \"alias\": null\n      },\n      \"query\": {\n        \"match\": {\n          \"action\": {\n            \"query\": \"LocalAllow\",\n            \"type\": \"phrase\"\n          }\n        }\n      },\n      \"$state\": {\n        \"store\": \"appState\"\n      }\n    },\n    {\n      \"meta\": {\n        \"negate\": false,\n        \"index\": \"logstash-*\",\n        \"type\": \"phrase\",\n        \"key\": \"action\",\n        \"value\": \"Drop\",\n        \"disabled\": false,\n        \"alias\": null\n      },\n      \"query\": {\n        \"match\": {\n          \"action\": {\n            \"query\": \"Drop\",\n            \"type\": \"phrase\"\n          }\n        }\n      },\n      \"$state\": {\n        \"store\": \"appState\"\n      }\n    },\n    {\n      \"meta\": {\n        \"negate\": true,\n        \"index\": \"logstash-*\",\n        \"type\": \"phrase\",\n        \"key\": \"src_ip\",\n        \"value\": \"0.0.0.0\",\n        \"disabled\": false,\n        \"alias\": null\n      },\n      \"query\": {\n        \"match\": {\n          \"src_ip\": {\n            \"query\": \"0.0.0.0\",\n            \"type\": \"phrase\"\n          }\n        }\n      },\n      \"$state\": {\n        \"store\": \"appState\"\n      }\n    },\n    {\n      \"meta\": {\n        \"negate\": true,\n        \"index\": \"logstash-*\",\n        \"type\": \"phrase\",\n        \"key\": \"src_port\",\n        \"value\": \"0\",\n        \"disabled\": false,\n        \"alias\": null\n      },\n      \"query\": {\n        \"match\": {\n          \"src_port\": {\n            \"query\": \"0\",\n            \"type\": \"phrase\"\n          }\n        }\n      },\n      \"$state\": {\n        \"store\": \"appState\"\n      }\n    },\n    {\n      \"meta\": {\n        \"negate\": true,\n        \"index\": \"logstash-*\",\n        \"type\": \"phrase\",\n        \"key\": \"src_port\",\n        \"value\": \"443\",\n        \"disabled\": false,\n        \"alias\": null\n      },\n      \"query\": {\n        \"match\": {\n          \"src_port\": {\n            \"query\": \"443\",\n            \"type\": \"phrase\"\n          }\n        }\n      },\n      \"$state\": {\n        \"store\": \"appState\"\n      }\n    },\n    {\n      \"meta\": {\n        \"negate\": true,\n        \"index\": \"logstash-*\",\n        \"type\": \"phrase\",\n        \"key\": \"dst_port\",\n        \"value\": \"25\",\n        \"disabled\": false,\n        \"alias\": null\n      },\n      \"query\": {\n        \"match\": {\n          \"dst_port\": {\n            \"query\": \"25\",\n            \"type\": \"phrase\"\n          }\n        }\n      },\n      \"$state\": {\n        \"store\": \"appState\"\n      }\n    }\n  ]\n}"
+      }
+    }
+  },
+  {
+    "_id": "AWbH6lACHREZslC1ur0n",
+    "_type": "search",
+    "_source": {
+      "title": "Egress 3.3.7b",
+      "description": "",
+      "hits": 0,
+      "columns": [
+        "syslog_program",
+        "barracuda_log"
+      ],
+      "sort": [
+        "@timestamp",
+        "desc"
+      ],
+      "version": 1,
+      "kibanaSavedObjectMeta": {
+        "searchSourceJSON": "{\n  \"index\": \"logstash-*\",\n  \"highlightAll\": true,\n  \"version\": true,\n  \"query\": {\n    \"query_string\": {\n      \"query\": \"customer: egress AND host: (\\\"P-VM-NGFW-01\\\" OR \\\"S-VM-CGFW-01\\\" OR \\\"S-VM-CGFW-02\\\")  AND syslog_program:  (\\\"S-VM-CGFW-01/Box_Firewall\\\" OR \\\"S-VM-CGFW-02/Box_Firewall\\\" OR \\\"P-VM-NGFW-01/Box_Firewall\\\"  OR \\\"P-VM-NGFW-01/Box_Config_Changes\\\" OR \\\"S-VM-CGFW-01/Box_Config_Changes\\\" OR \\\"S-VM-CGFW-02/Box_Config_Changes\\\") AND NOT (\\\"connect.barracuda.com\\\" OR \\\"@127.0.0.1\\\") AND NOT (\\\"active.fwrule changed\\\" OR FWAU*) !\\\"(Address-Port Scan)\\\"\"\n    }\n  },\n  \"filter\": [\n    {\n      \"meta\": {\n        \"negate\": true,\n        \"index\": \"logstash-*\",\n        \"type\": \"phrase\",\n        \"key\": \"syslog_program\",\n        \"value\": \"P-VM-NGFW-01/box_Release_UpdateServer\",\n        \"disabled\": false,\n        \"alias\": null\n      },\n      \"query\": {\n        \"match\": {\n          \"syslog_program\": {\n            \"query\": \"P-VM-NGFW-01/box_Release_UpdateServer\",\n            \"type\": \"phrase\"\n          }\n        }\n      },\n      \"$state\": {\n        \"store\": \"appState\"\n      }\n    },\n    {\n      \"meta\": {\n        \"negate\": true,\n        \"index\": \"logstash-*\",\n        \"type\": \"phrase\",\n        \"key\": \"syslog_program\",\n        \"value\": \"P-VM-NGFW-01/box_Config_daemon_download\",\n        \"disabled\": false,\n        \"alias\": null\n      },\n      \"query\": {\n        \"match\": {\n          \"syslog_program\": {\n            \"query\": \"P-VM-NGFW-01/box_Config_daemon_download\",\n            \"type\": \"phrase\"\n          }\n        }\n      },\n      \"$state\": {\n        \"store\": \"appState\"\n      }\n    },\n    {\n      \"meta\": {\n        \"index\": \"logstash-*\",\n        \"negate\": true,\n        \"disabled\": false,\n        \"alias\": null,\n        \"type\": \"phrase\",\n        \"key\": \"syslog_program\",\n        \"value\": \"S-VM-CGFW-01/box_Config_daemon_download\"\n      },\n      \"query\": {\n        \"match\": {\n          \"syslog_program\": {\n            \"query\": \"S-VM-CGFW-01/box_Config_daemon_download\",\n            \"type\": \"phrase\"\n          }\n        }\n      },\n      \"$state\": {\n        \"store\": \"appState\"\n      }\n    },\n    {\n      \"meta\": {\n        \"index\": \"logstash-*\",\n        \"negate\": true,\n        \"disabled\": false,\n        \"alias\": null,\n        \"type\": \"phrase\",\n        \"key\": \"syslog_program\",\n        \"value\": \"S-VM-CGFW-02/box_Config_daemon_download\"\n      },\n      \"query\": {\n        \"match\": {\n          \"syslog_program\": {\n            \"query\": \"S-VM-CGFW-02/box_Config_daemon_download\",\n            \"type\": \"phrase\"\n          }\n        }\n      },\n      \"$state\": {\n        \"store\": \"appState\"\n      }\n    }\n  ]\n}"
+      }
+    }
+  },
+  {
+    "_id": "AWbH2MQ7HREZslC1ur0k",
+    "_type": "search",
+    "_source": {
+      "title": "Egress 3.3.5",
+      "description": "",
+      "hits": 0,
+      "columns": [
+        "host",
+        "syslog_message"
+      ],
+      "sort": [
+        "@timestamp",
+        "desc"
+      ],
+      "version": 1,
+      "kibanaSavedObjectMeta": {
+        "searchSourceJSON": "{\n  \"index\": \"logstash-*\",\n  \"highlightAll\": true,\n  \"version\": true,\n  \"query\": {\n    \"query_string\": {\n      \"query\": \"customer: egress AND \\\"error\\\" AND host: (\\\"2018\\\" OR \\\"S-VM-CGFW-01\\\" OR \\\"S-VM-CGFW-02\\\" OR \\\"P-VM-NGFW-01\\\") AND NOT (\\\"No error\\\" OR \\\"Cache summary\\\" OR \\\"info\\\" OR \\\"Download \\\" OR \\\"warning\\\" OR \\\"updateproducttips \\\")\",\n      \"analyze_wildcard\": true\n    }\n  },\n  \"filter\": [\n    {\n      \"meta\": {\n        \"negate\": true,\n        \"index\": \"logstash-*\",\n        \"type\": \"phrase\",\n        \"key\": \"host\",\n        \"value\": \"2018\",\n        \"disabled\": false,\n        \"alias\": null\n      },\n      \"query\": {\n        \"match\": {\n          \"host\": {\n            \"query\": \"2018\",\n            \"type\": \"phrase\"\n          }\n        }\n      },\n      \"$state\": {\n        \"store\": \"appState\"\n      }\n    },\n    {\n      \"meta\": {\n        \"negate\": true,\n        \"index\": \"logstash-*\",\n        \"type\": \"phrase\",\n        \"key\": \"syslog_program\",\n        \"value\": \"P-VM-NGFW-01/box_Config_daemon_download\",\n        \"disabled\": false,\n        \"alias\": null\n      },\n      \"query\": {\n        \"match\": {\n          \"syslog_program\": {\n            \"query\": \"P-VM-NGFW-01/box_Config_daemon_download\",\n            \"type\": \"phrase\"\n          }\n        }\n      },\n      \"$state\": {\n        \"store\": \"appState\"\n      }\n    },\n    {\n      \"meta\": {\n        \"index\": \"logstash-*\",\n        \"negate\": true,\n        \"disabled\": false,\n        \"alias\": null,\n        \"type\": \"phrase\",\n        \"key\": \"syslog_program\",\n        \"value\": \"S-VM-CGFW-01/box_Config_daemon_download\"\n      },\n      \"query\": {\n        \"match\": {\n          \"syslog_program\": {\n            \"query\": \"S-VM-CGFW-01/box_Config_daemon_download\",\n            \"type\": \"phrase\"\n          }\n        }\n      },\n      \"$state\": {\n        \"store\": \"appState\"\n      }\n    },\n    {\n      \"meta\": {\n        \"index\": \"logstash-*\",\n        \"negate\": true,\n        \"disabled\": false,\n        \"alias\": null,\n        \"type\": \"phrase\",\n        \"key\": \"syslog_program\",\n        \"value\": \"S-VM-CGFW-02/box_Config_daemon_download\"\n      },\n      \"query\": {\n        \"match\": {\n          \"syslog_program\": {\n            \"query\": \"S-VM-CGFW-02/box_Config_daemon_download\",\n            \"type\": \"phrase\"\n          }\n        }\n      },\n      \"$state\": {\n        \"store\": \"appState\"\n      }\n    }\n  ]\n}"
+      }
+    }
+  },
+  {
+    "_id": "AWbHoQ2mHREZslC1ur0h",
+    "_type": "search",
+    "_source": {
+      "title": "Egress 3.2.3",
+      "description": "",
+      "hits": 0,
+      "columns": [
+        "host",
+        "src_ip",
+        "src_port",
+        "dst_ip",
+        "dst_port",
+        "rule_explanation",
+        "x5"
+      ],
+      "sort": [
+        "@timestamp",
+        "desc"
+      ],
+      "version": 1,
+      "kibanaSavedObjectMeta": {
+        "searchSourceJSON": "{\n  \"index\": \"logstash-*\",\n  \"highlightAll\": true,\n  \"version\": true,\n  \"query\": {\n    \"query_string\": {\n      \"query\": \"customer: egress AND host:(\\\"S-VM-CGFW-01\\\" OR \\\"S-VM-CGFW-02\\\" OR \\\"P-VM-NGFW-01\\\" OR 2018) AND dst_port: (80 OR 443) AND  !dst_ip:(10.*)\"\n    }\n  },\n  \"filter\": [\n    {\n      \"meta\": {\n        \"negate\": false,\n        \"index\": \"logstash-*\",\n        \"type\": \"phrase\",\n        \"key\": \"rule_explanation\",\n        \"value\": \"Block by Rule\",\n        \"disabled\": false,\n        \"alias\": null\n      },\n      \"query\": {\n        \"match\": {\n          \"rule_explanation\": {\n            \"query\": \"Block by Rule\",\n            \"type\": \"phrase\"\n          }\n        }\n      },\n      \"$state\": {\n        \"store\": \"appState\"\n      }\n    },\n    {\n      \"meta\": {\n        \"negate\": true,\n        \"index\": \"logstash-*\",\n        \"type\": \"phrase\",\n        \"key\": \"dst_ip\",\n        \"value\": \"51.140.98.205\",\n        \"disabled\": false,\n        \"alias\": null\n      },\n      \"query\": {\n        \"match\": {\n          \"dst_ip\": {\n            \"query\": \"51.140.98.205\",\n            \"type\": \"phrase\"\n          }\n        }\n      },\n      \"$state\": {\n        \"store\": \"appState\"\n      }\n    }\n  ]\n}"
+      }
+    }
+  },
+  {
+    "_id": "AWbH0w6cHREZslC1ur0j",
+    "_type": "search",
+    "_source": {
+      "title": "Egress 3.3.2",
+      "description": "",
+      "hits": 0,
+      "columns": [
+        "message"
+      ],
+      "sort": [
+        "@timestamp",
+        "desc"
+      ],
+      "version": 1,
+      "kibanaSavedObjectMeta": {
+        "searchSourceJSON": "{\n  \"index\": \"logstash-*\",\n  \"highlightAll\": true,\n  \"version\": true,\n  \"query\": {\n    \"query_string\": {\n      \"query\": \"customer: egress AND \\\"critical\\\" AND host: (\\\"2018\\\" OR \\\"S-VM-CGFW-01\\\" OR \\\"S-VM-CGFW-02\\\" OR \\\"P-VM-NGFW-01\\\") AND NOT \\\"Load threshholds\\\"\"\n    }\n  },\n  \"filter\": []\n}"
+      }
+    }
+  },
+  {
+    "_id": "AWbHhIwCHREZslC1ur0g",
+    "_type": "search",
+    "_source": {
+      "title": "Egress 3.2.2 Production",
+      "description": "",
+      "hits": 0,
+      "columns": [
+        "barracuda_log"
+      ],
+      "sort": [
+        "@timestamp",
+        "desc"
+      ],
+      "version": 1,
+      "kibanaSavedObjectMeta": {
+        "searchSourceJSON": "{\n  \"index\": \"logstash-*\",\n  \"highlightAll\": true,\n  \"version\": true,\n  \"query\": {\n    \"query_string\": {\n      \"query\": \"customer: egress AND host:(\\\"P-VM-NGFW-01\\\") AND syslog_program: (\\\"P-VM-NGFW-01/box_Release_UpdateServer\\\")\",\n      \"analyze_wildcard\": true\n    }\n  },\n  \"filter\": []\n}"
+      }
+    }
+  },
+  {
+    "_id": "AWbHgAq6HREZslC1ur0f",
+    "_type": "search",
+    "_source": {
+      "title": "Egress 3.2.2 Staging",
+      "description": "",
+      "hits": 0,
+      "columns": [
+        "message",
+        "syslog_hostname"
+      ],
+      "sort": [
+        "@timestamp",
+        "desc"
+      ],
+      "version": 1,
+      "kibanaSavedObjectMeta": {
+        "searchSourceJSON": "{\n  \"index\": \"logstash-*\",\n  \"highlightAll\": true,\n  \"version\": true,\n  \"query\": {\n    \"query_string\": {\n      \"query\": \"host:(\\\"S-VM-CGFW-01\\\" OR \\\"S-VM-CGFW-02\\\") AND \\\"Checking if omsagent needs to be updated\\\"\",\n      \"analyze_wildcard\": true\n    }\n  },\n  \"filter\": [\n    {\n      \"meta\": {\n        \"negate\": false,\n        \"index\": \"logstash-*\",\n        \"type\": \"phrase\",\n        \"key\": \"customer\",\n        \"value\": \"egress\",\n        \"disabled\": false,\n        \"alias\": null\n      },\n      \"query\": {\n        \"match\": {\n          \"customer\": {\n            \"query\": \"egress\",\n            \"type\": \"phrase\"\n          }\n        }\n      },\n      \"$state\": {\n        \"store\": \"appState\"\n      }\n    }\n  ]\n}"
+      }
+    }
+  },
+  {
+    "_id": "AWbH2YhBHREZslC1ur0l",
+    "_type": "search",
+    "_source": {
+      "title": "Egress 3.3.5(a)",
+      "description": "",
+      "hits": 0,
+      "columns": [
+        "message",
+        "beat.hostname"
+      ],
+      "sort": [
+        "@timestamp",
+        "asc"
+      ],
+      "version": 1,
+      "kibanaSavedObjectMeta": {
+        "searchSourceJSON": "{\n  \"index\": \"logstash-*\",\n  \"highlightAll\": true,\n  \"version\": true,\n  \"query\": {\n    \"query_string\": {\n      \"query\": \"customer: egress AND host: (\\\"2018\\\" OR \\\"S-VM-CGFW-01\\\" OR \\\"S-VM-CGFW-02\\\" OR \\\"P-VM-NGFW-01\\\") AND \\\"fwipsdef\\\"\",\n      \"analyze_wildcard\": true\n    }\n  },\n  \"filter\": []\n}"
+      }
+    }
+  },
+  {
+    "_id": "cc8e2af0-fd11-11e7-a281-9d41a81aa727",
+    "_type": "search",
+    "_source": {
+      "title": "Egress _IPS_Alerts",
+      "description": "",
+      "hits": 0,
+      "columns": [
+        "syslog_message"
+      ],
+      "sort": [
+        "@timestamp",
+        "desc"
+      ],
+      "version": 1,
+      "kibanaSavedObjectMeta": {
+        "searchSourceJSON": "{\"index\":\"logstash-*\",\"highlightAll\":true,\"version\":true,\"query\":{\"query_string\":{\"analyze_wildcard\":true,\"query\":\"\\\"Box_Firewall_threat\\\" AND NOT (\\\"TCP Segment Overwrite\\\" OR \\\"d1.sophosupd.com\\\")\"}},\"filter\":[]}"
+      }
+    }
+  },
+  {
+    "_id": "ce95c740-3105-11e8-bd9e-8f72d664a88e",
+    "_type": "search",
+    "_source": {
+      "title": "Egress_MalwareatBoundary(3.2.1)",
+      "description": "",
+      "hits": 0,
+      "columns": [
+        "message",
+        "beat.hostname"
+      ],
+      "sort": [
+        "@timestamp",
+        "desc"
+      ],
+      "version": 1,
+      "kibanaSavedObjectMeta": {
+        "searchSourceJSON": "{\"index\":\"logstash-*\",\"highlightAll\":true,\"version\":true,\"query\":{\"query_string\":{\"query\":\"source:\\\"/var/log/exim/main.log\\\" AND \\\"This message contains a virus\\\"\",\"analyze_wildcard\":true}},\"filter\":[]}"
+      }
+    }
+  },
+  {
+    "_id": "AWY4zqzFcxF4AU8znL-I",
+    "_type": "search",
+    "_source": {
+      "title": "EGRESS_USERACT_CRT_CHG_DEL 3.7.6",
+      "description": "",
+      "hits": 0,
+      "columns": [
+        "host",
+        "event_data.SubjectUserName",
+        "event_data.TargetUserName",
+        "event_id",
+        "message"
+      ],
+      "sort": [
+        "@timestamp",
+        "desc"
+      ],
+      "version": 1,
+      "kibanaSavedObjectMeta": {
+        "searchSourceJSON": "{\"index\":\"winlogbeat-*\",\"highlightAll\":true,\"version\":true,\"filter\":[{\"$state\":{\"store\":\"appState\"},\"meta\":{\"alias\":null,\"disabled\":false,\"index\":\"winlogbeat-*\",\"key\":\"event_id\",\"negate\":true,\"type\":\"phrase\",\"value\":\"4,769\"},\"query\":{\"match\":{\"event_id\":{\"query\":4769,\"type\":\"phrase\"}}}},{\"$state\":{\"store\":\"appState\"},\"meta\":{\"alias\":null,\"disabled\":false,\"index\":\"winlogbeat-*\",\"key\":\"event_id\",\"negate\":true,\"type\":\"phrase\",\"value\":\"4,770\"},\"query\":{\"match\":{\"event_id\":{\"query\":4770,\"type\":\"phrase\"}}}},{\"$state\":{\"store\":\"appState\"},\"meta\":{\"alias\":null,\"disabled\":false,\"index\":\"winlogbeat-*\",\"key\":\"event_id\",\"negate\":true,\"type\":\"phrase\",\"value\":\"4,776\"},\"query\":{\"match\":{\"event_id\":{\"query\":4776,\"type\":\"phrase\"}}}},{\"$state\":{\"store\":\"appState\"},\"meta\":{\"alias\":null,\"disabled\":false,\"index\":\"winlogbeat-*\",\"key\":\"event_id\",\"negate\":true,\"type\":\"phrase\",\"value\":\"4,779\"},\"query\":{\"match\":{\"event_id\":{\"query\":4779,\"type\":\"phrase\"}}}},{\"$state\":{\"store\":\"appState\"},\"meta\":{\"alias\":null,\"disabled\":false,\"index\":\"winlogbeat-*\",\"key\":\"event_id\",\"negate\":true,\"type\":\"phrase\",\"value\":\"4,778\"},\"query\":{\"match\":{\"event_id\":{\"query\":4778,\"type\":\"phrase\"}}}},{\"meta\":{\"negate\":true,\"index\":\"winlogbeat-*\",\"type\":\"phrase\",\"key\":\"event_id\",\"value\":\"4,768\",\"disabled\":false,\"alias\":null},\"query\":{\"match\":{\"event_id\":{\"query\":4768,\"type\":\"phrase\"}}},\"$state\":{\"store\":\"appState\"}},{\"meta\":{\"negate\":true,\"index\":\"winlogbeat-*\",\"type\":\"phrase\",\"key\":\"event_id\",\"value\":\"4,771\",\"disabled\":false,\"alias\":null},\"query\":{\"match\":{\"event_id\":{\"query\":4771,\"type\":\"phrase\"}}},\"$state\":{\"store\":\"appState\"}},{\"meta\":{\"index\":\"winlogbeat-*\",\"negate\":false,\"disabled\":false,\"alias\":null,\"type\":\"phrase\",\"key\":\"customer\",\"value\":\"egress\"},\"query\":{\"match\":{\"customer\":{\"query\":\"egress\",\"type\":\"phrase\"}}},\"$state\":{\"store\":\"appState\"}},{\"meta\":{\"negate\":true,\"index\":\"winlogbeat-*\",\"type\":\"phrase\",\"key\":\"event_data.TargetUserName\",\"value\":\"SophosOnAccess\",\"disabled\":false,\"alias\":null},\"query\":{\"match\":{\"event_data.TargetUserName\":{\"query\":\"SophosOnAccess\",\"type\":\"phrase\"}}},\"$state\":{\"store\":\"appState\"}},{\"meta\":{\"negate\":true,\"index\":\"winlogbeat-*\",\"type\":\"phrase\",\"key\":\"event_data.TargetUserName\",\"value\":\"SophosUser\",\"disabled\":false,\"alias\":null},\"query\":{\"match\":{\"event_data.TargetUserName\":{\"query\":\"SophosUser\",\"type\":\"phrase\"}}},\"$state\":{\"store\":\"appState\"}},{\"meta\":{\"negate\":true,\"index\":\"winlogbeat-*\",\"type\":\"phrase\",\"key\":\"event_data.TargetUserName\",\"value\":\"SophosPowerUser\",\"disabled\":false,\"alias\":null},\"query\":{\"match\":{\"event_data.TargetUserName\":{\"query\":\"SophosPowerUser\",\"type\":\"phrase\"}}},\"$state\":{\"store\":\"appState\"}},{\"meta\":{\"negate\":true,\"index\":\"winlogbeat-*\",\"type\":\"phrase\",\"key\":\"event_data.TargetUserName\",\"value\":\"SophosAdministrator\",\"disabled\":false,\"alias\":null},\"query\":{\"match\":{\"event_data.TargetUserName\":{\"query\":\"SophosAdministrator\",\"type\":\"phrase\"}}},\"$state\":{\"store\":\"appState\"}},{\"meta\":{\"negate\":true,\"index\":\"winlogbeat-*\",\"type\":\"phrase\",\"key\":\"event_id\",\"value\":\"4,728\",\"disabled\":false,\"alias\":null},\"query\":{\"match\":{\"event_id\":{\"query\":4728,\"type\":\"phrase\"}}},\"$state\":{\"store\":\"appState\"}},{\"meta\":{\"negate\":true,\"index\":\"winlogbeat-*\",\"type\":\"phrase\",\"key\":\"event_id\",\"value\":\"4,737\",\"disabled\":false,\"alias\":null},\"query\":{\"match\":{\"event_id\":{\"query\":4737,\"type\":\"phrase\"}}},\"$state\":{\"store\":\"appState\"}}],\"query\":{\"query_string\":{\"analyze_wildcard\":true,\"query\":\"(event_id: [4720 TO 4740] OR event_id:[4754 TO 4781])\"}}}"
+      }
+    }
+  },
+  {
+    "_id": "42dfa8a0-30e8-11e8-be4a-05cb7b9e0654",
+    "_type": "search",
+    "_source": {
+      "title": "Egress_BlockedFileExtenstions(3.2.4)",
+      "description": "",
+      "hits": 0,
+      "columns": [
+        "customer",
+        "message",
+        "beat.name"
+      ],
+      "sort": [
+        "@timestamp",
+        "desc"
+      ],
+      "version": 1,
+      "kibanaSavedObjectMeta": {
+        "searchSourceJSON": "{\"index\":\"logstash-*\",\"highlightAll\":true,\"version\":true,\"filter\":[{\"$state\":{\"store\":\"appState\"},\"meta\":{\"alias\":null,\"disabled\":false,\"index\":\"logstash-*\",\"key\":\"customer\",\"negate\":false,\"type\":\"phrase\",\"value\":\"egress\"},\"query\":{\"match\":{\"customer\":{\"query\":\"egress\",\"type\":\"phrase\"}}}}],\"query\":{\"query_string\":{\"analyze_wildcard\":true,\"query\":\"\\\"Blacklisted file extension detected\\\"\"}}}"
+      }
+    }
+  },
+  {
+    "_id": "bcf99eb0-26b2-11e8-a415-15a9d27d1d38",
+    "_type": "search",
+    "_source": {
+      "title": "Egress_Reports_3.2.4AND3.2.5(3.2.5 AND 3.2.5)",
+      "description": "",
+      "hits": 0,
+      "columns": [
+        "_source"
+      ],
+      "sort": [
+        "@timestamp",
+        "desc"
+      ],
+      "version": 1,
+      "kibanaSavedObjectMeta": {
+        "searchSourceJSON": "{\"index\":\"winlogbeat-*\",\"highlightAll\":true,\"version\":true,\"filter\":[],\"query\":{\"query_string\":{\"query\":\"customer:egress AND source:\\\"/var/log/exim/main.log\\\" AND \\\"Blacklisted file extension\\\"\",\"analyze_wildcard\":true}}}"
+      }
+    }
+  },
+  {
+    "_id": "e1c65b50-7939-11e8-b408-bf57486922f1",
+    "_type": "search",
+    "_source": {
+      "title": "EGR_CJSM-3_Unauthorized-2",
+      "description": "",
+      "hits": 0,
+      "columns": [
+        "beat.hostname",
+        "message"
+      ],
+      "sort": [
+        "@timestamp",
+        "desc"
+      ],
+      "version": 1,
+      "kibanaSavedObjectMeta": {
+        "searchSourceJSON": "{\"index\":\"logstash-*\",\"highlightAll\":true,\"version\":true,\"filter\":[{\"$state\":{\"store\":\"appState\"},\"meta\":{\"alias\":null,\"disabled\":false,\"index\":\"logstash-*\",\"key\":\"customer\",\"negate\":false,\"type\":\"phrase\",\"value\":\"egress\"},\"query\":{\"match\":{\"customer\":{\"query\":\"egress\",\"type\":\"phrase\"}}}},{\"meta\":{\"negate\":false,\"index\":\"logstash-*\",\"type\":\"phrase\",\"key\":\"type\",\"value\":\"USER_AUTH\",\"disabled\":false,\"alias\":null},\"query\":{\"match\":{\"type\":{\"query\":\"USER_AUTH\",\"type\":\"phrase\"}}},\"$state\":{\"store\":\"appState\"}},{\"meta\":{\"index\":\"logstash-*\",\"negate\":true,\"disabled\":false,\"alias\":null,\"type\":\"phrase\",\"key\":\"beat.hostname\",\"value\":\"P-VM-FEMTA-02\"},\"query\":{\"match\":{\"beat.hostname\":{\"query\":\"P-VM-FEMTA-02\",\"type\":\"phrase\"}}},\"$state\":{\"store\":\"appState\"}},{\"meta\":{\"negate\":true,\"index\":\"logstash-*\",\"type\":\"phrase\",\"key\":\"beat.hostname\",\"value\":\"P-VM-FEMTA-01\",\"disabled\":false,\"alias\":null},\"query\":{\"match\":{\"beat.hostname\":{\"query\":\"P-VM-FEMTA-01\",\"type\":\"phrase\"}}},\"$state\":{\"store\":\"appState\"}},{\"meta\":{\"index\":\"logstash-*\",\"negate\":true,\"disabled\":false,\"alias\":null,\"type\":\"phrase\",\"key\":\"beat.hostname\",\"value\":\"P-VM-BEMTA-02\"},\"query\":{\"match\":{\"beat.hostname\":{\"query\":\"P-VM-BEMTA-02\",\"type\":\"phrase\"}}},\"$state\":{\"store\":\"appState\"}},{\"meta\":{\"index\":\"logstash-*\",\"negate\":true,\"disabled\":false,\"alias\":null,\"type\":\"phrase\",\"key\":\"beat.hostname\",\"value\":\"P-VM-BEMTA-01\"},\"query\":{\"match\":{\"beat.hostname\":{\"query\":\"P-VM-BEMTA-01\",\"type\":\"phrase\"}}},\"$state\":{\"store\":\"appState\"}}],\"query\":{\"query_string\":{\"analyze_wildcard\":true,\"query\":\"(\\\"visal.baron \\\") AND (\\\"authentication failure\\\" OR \\\" success\\\" OR \\\"failure\\\" OR \\\"accepted\\\")\"}}}"
+      }
+    }
+  },
+  {
+    "_id": "1a7583a0-7925-11e8-be55-1dffa7da9d88",
+    "_type": "search",
+    "_source": {
+      "title": "EGR_CJSM-3_Unauthorized-1",
+      "description": "",
+      "hits": 0,
+      "columns": [
+        "message",
+        "customer",
+        "beat.hostname",
+        "acct",
+        "res"
+      ],
+      "sort": [
+        "@timestamp",
+        "desc"
+      ],
+      "version": 1,
+      "kibanaSavedObjectMeta": {
+        "searchSourceJSON": "{\"index\":\"logstash-*\",\"highlightAll\":true,\"version\":true,\"filter\":[{\"meta\":{\"index\":\"logstash-*\",\"negate\":false,\"disabled\":false,\"alias\":null,\"type\":\"phrase\",\"key\":\"customer\",\"value\":\"egress\"},\"query\":{\"match\":{\"customer\":{\"query\":\"egress\",\"type\":\"phrase\"}}},\"$state\":{\"store\":\"appState\"}},{\"meta\":{\"index\":\"logstash-*\",\"negate\":false,\"disabled\":false,\"alias\":null,\"type\":\"phrase\",\"key\":\"source\",\"value\":\"/var/log/secure\"},\"query\":{\"match\":{\"source\":{\"query\":\"/var/log/secure\",\"type\":\"phrase\"}}},\"$state\":{\"store\":\"appState\"}},{\"meta\":{\"negate\":true,\"index\":\"logstash-*\",\"type\":\"phrase\",\"key\":\"beat.hostname\",\"value\":\"VM-SALT-01\",\"disabled\":false,\"alias\":null},\"query\":{\"match\":{\"beat.hostname\":{\"query\":\"VM-SALT-01\",\"type\":\"phrase\"}}},\"$state\":{\"store\":\"appState\"}}],\"query\":{\"query_string\":{\"query\":\"(( beat.hostname: S-*)  OR  (beat.hostname: P-*))    AND  (\\\"authentication failure\\\" OR \\\" success\\\" OR \\\"failure\\\" OR \\\"accepted\\\") NOT ( \\\"adm_darren.cooper\\\" OR \\\"adm_joe.brailsford  \\\" OR \\\"adm_joe.chatterton \\\" OR \\\"visal.baron \\\" OR \\\"adm_visal.baron \\\" OR \\\"dan.roddis \\\" OR \\\"jayesh.mohane \\\" OR \\\"adm_oliver.smith\\\"  OR \\\"adm_dan.roddis\\\" OR \\\"adm_jayesh.mohane \\\" OR \\\"adm_curtis.almond\\\") !Oct !Mar !\\\"Nov\\\"\",\"analyze_wildcard\":true}}}"
+      }
+    }
+  },
+  {
+    "_id": "8ee7de10-37ec-11e8-bf81-f3fae4091033",
+    "_type": "search",
+    "_source": {
+      "title": "Egress_BlockedFileExtenstions(3.2.4)v1.1",
+      "description": "",
+      "hits": 0,
+      "columns": [
+        "beat.name",
+        "message"
+      ],
+      "sort": [
+        "@timestamp",
+        "desc"
+      ],
+      "version": 1,
+      "kibanaSavedObjectMeta": {
+        "searchSourceJSON": "{\"index\":\"logstash-*\",\"highlightAll\":true,\"version\":true,\"filter\":[{\"$state\":{\"store\":\"appState\"},\"meta\":{\"alias\":null,\"disabled\":false,\"index\":\"logstash-*\",\"key\":\"customer\",\"negate\":false,\"type\":\"phrase\",\"value\":\"egress\"},\"query\":{\"match\":{\"customer\":{\"query\":\"egress\",\"type\":\"phrase\"}}}}],\"query\":{\"query_string\":{\"query\":\"\\\"Blacklisted file extension detected\\\" AND (\\\"P-VM-AVMTA-02\\\" OR \\\"P-VM-AVMTA-01\\\" OR \\\"S-VM-AVMTA-01\\\" OR \\\"S-VM-AVMTA-02\\\")\",\"analyze_wildcard\":true}}}"
+      }
+    }
+  }
+]
